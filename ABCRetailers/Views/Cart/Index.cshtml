@@ -1,0 +1,212 @@
+﻿@model List<ABCRetailers.Models.ViewModels.CartItemViewModel>
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
+    <div>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left"></i> Continue Shopping
+        </a>
+        @if (Model.Any())
+        {
+            <a asp-action="Checkout" class="btn btn-success">
+                <i class="fas fa-credit-card"></i> Proceed to Checkout
+            </a>
+        }
+    </div>
+</div>
+
+@if (Model.Any())
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Cart Items (@Model.Sum(item => item.Quantity) items)</h5>
+                </div>
+                <div class="card-body">
+                    @foreach (var item in Model)
+                    {
+                        <div class="cart-item border-bottom pb-3 mb-3">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@item.ImageUrl" alt="@item.ProductName" class="img-thumbnail" style="max-height: 80px;">
+                                    }
+                                    else
+                                    {
+                                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 80px;">
+                                            <i class="fas fa-image fa-2x text-muted"></i>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="mb-1">@item.ProductName</h6>
+                                    <small class="text-muted">Product ID: @item.ProductId</small>
+                                </div>
+                                <div class="col-md-2">
+                                    <strong class="text-success">@item.Price.ToString("C")</strong>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group input-group-sm">
+                                        <button class="btn btn-outline-secondary decrease-quantity"
+                                                type="button"
+                                                data-cart-id="@item.CartId"
+                                                data-current-quantity="@item.Quantity">
+                                            -
+                                        </button>
+                                        <input type="number" class="form-control text-center quantity-display"
+                                               value="@item.Quantity" min="1" max="@item.StockAvailable" readonly>
+                                        <button class="btn btn-outline-secondary increase-quantity"
+                                                type="button"
+                                                data-cart-id="@item.CartId"
+                                                data-current-quantity="@item.Quantity"
+                                                data-max-stock="@item.StockAvailable">
+                                            +
+                                        </button>
+                                    </div>
+                                    <small class="text-muted">Max: @item.StockAvailable</small>
+                                </div>
+                                <div class="col-md-2">
+                                    <strong>@item.TotalPrice.ToString("C")</strong>
+                                    <button class="btn btn-sm btn-outline-danger mt-1 remove-item"
+                                            data-cart-id="@item.CartId"
+                                            title="Remove item">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="text-end mt-3">
+                <form asp-action="ClearCart" method="post" onsubmit="return confirm('Are you sure you want to clear your entire cart?');">
+                    <button type="submit" class="btn btn-outline-danger">
+                        <i class="fas fa-trash"></i> Clear Cart
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Order Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">@Model.Sum(item => item.TotalPrice).ToString("C")</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Shipping:</span>
+                        <span>Free</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Tax:</span>
+                        <span>@((Model.Sum(item => item.TotalPrice) * 0.15).ToString("C"))</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-3">
+                        <strong>Total:</strong>
+                        <strong id="total-amount">@((Model.Sum(item => item.TotalPrice) * 1.15).ToString("C"))</strong>
+                    </div>
+
+                    <a asp-action="Checkout" class="btn btn-success w-100">
+                        <i class="fas fa-credit-card"></i> Checkout
+                    </a>
+
+                    <div class="text-center mt-2">
+                        <small class="text-muted">
+                            <i class="fas fa-lock"></i> Secure checkout
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center py-5">
+        <div class="alert alert-info">
+            <h4><i class="fas fa-shopping-cart"></i> Your cart is empty</h4>
+            <p>Start shopping to add items to your cart!</p>
+        </div>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg">
+            <i class="fas fa-store"></i> Start Shopping
+        </a>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Increase quantity
+            $('.increase-quantity').click(function() {
+                const cartId = $(this).data('cart-id');
+                const currentQuantity = parseInt($(this).data('current-quantity'));
+                const maxStock = $(this).data('max-stock');
+
+                if (currentQuantity < maxStock) {
+                    updateQuantity(cartId, currentQuantity + 1);
+                } else {
+                    alert('Cannot exceed available stock: ' + maxStock);
+                }
+            });
+
+            // Decrease quantity
+            $('.decrease-quantity').click(function() {
+                const cartId = $(this).data('cart-id');
+                const currentQuantity = parseInt($(this).data('current-quantity'));
+
+                if (currentQuantity > 1) {
+                    updateQuantity(cartId, currentQuantity - 1);
+                }
+            });
+
+            // Remove item
+            $('.remove-item').click(function() {
+                const cartId = $(this).data('cart-id');
+
+                if (confirm('Are you sure you want to remove this item from your cart?')) {
+                    removeItem(cartId);
+                }
+            });
+
+            function updateQuantity(cartId, newQuantity) {
+                $.post('@Url.Action("UpdateQuantity", "Cart")', {
+                    cartId: cartId,
+                    quantity: newQuantity
+                }, function(data) {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Error updating quantity: ' + data.message);
+                    }
+                }).fail(function() {
+                    alert('Error updating quantity. Please try again.');
+                });
+            }
+
+            function removeItem(cartId) {
+                $.post('@Url.Action("RemoveItem", "Cart")', {
+                    cartId: cartId
+                }, function(data) {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Error removing item: ' + data.message);
+                    }
+                }).fail(function() {
+                    alert('Error removing item. Please try again.');
+                });
+            }
+        });
+    </script>
+}

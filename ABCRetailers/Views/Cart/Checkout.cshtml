@@ -1,0 +1,92 @@
+﻿@model List<ABCRetailers.Models.ViewModels.CartItemViewModel>
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0"><i class="fas fa-credit-card"></i> Checkout</h3>
+            </div>
+            <div class="card-body">
+                <h5>Order Summary</h5>
+                @foreach (var item in Model)
+                {
+                    <div class="row border-bottom pb-2 mb-2">
+                        <div class="col-6">
+                            <strong>@item.ProductName</strong>
+                            <br>
+                            <small class="text-muted">Quantity: @item.Quantity</small>
+                        </div>
+                        <div class="col-6 text-end">
+                            <strong>@item.TotalPrice.ToString("C")</strong>
+                        </div>
+                    </div>
+                }
+
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <strong>Subtotal:</strong>
+                    </div>
+                    <div class="col-6 text-end">
+                        <strong>@Model.Sum(item => item.TotalPrice).ToString("C")</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <strong>Tax (15%):</strong>
+                    </div>
+                    <div class="col-6 text-end">
+                        <strong>@((Model.Sum(item => item.TotalPrice) * 0.15).ToString("C"))</strong>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-6">
+                        <h5>Total:</h5>
+                    </div>
+                    <div class="col-6 text-end">
+                        <h5 class="text-success">@((Model.Sum(item => item.TotalPrice) * 1.15).ToString("C"))</h5>
+                    </div>
+                </div>
+
+                <form asp-action="PlaceOrder" method="post" class="mt-4">
+                    @Html.AntiForgeryToken()
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        Your order will be processed immediately. You will receive a confirmation email shortly.
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-check-circle"></i> Place Order
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Cart
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0"><i class="fas fa-shipping-fast"></i> Delivery Information</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Shipping Address:</strong></p>
+                <p>Your default shipping address will be used.</p>
+
+                <p><strong>Estimated Delivery:</strong></p>
+                <p>3-5 business days</p>
+
+                <p><strong>Contact Information:</strong></p>
+                <p>@User.Identity.Name</p>
+            </div>
+        </div>
+    </div>
+</div>

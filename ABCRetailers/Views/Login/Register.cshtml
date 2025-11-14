@@ -1,0 +1,91 @@
+﻿@model ABCRetailers.Models.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title mb-0"><i class="fas fa-user-plus"></i> Create New Account</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="Register" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Username" class="form-label"></label>
+                        <input asp-for="Username" class="form-control" placeholder="Choose a username" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" type="email" placeholder="Enter your email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="FirstName" class="form-label"></label>
+                                <input asp-for="FirstName" class="form-control" placeholder="First name (optional)" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="LastName" class="form-label"></label>
+                                <input asp-for="LastName" class="form-control" placeholder="Last name (optional)" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Account Type Selection -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Role" class="form-label">Account Type</label>
+                        <select asp-for="Role" class="form-select">
+                            <option value="Customer">🛒 Customer Account</option>
+                            <option value="Admin">⚙️ Administrator Account</option>
+                        </select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                        <small class="form-text text-muted">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Customer:</strong> Shop and place orders |
+                            <strong>Admin:</strong> Manage products and orders
+                        </small>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" class="form-control" type="password" placeholder="Create a password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="ConfirmPassword" class="form-label"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="Confirm your password" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <p>Already have an account? <a asp-action="Login">Login here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

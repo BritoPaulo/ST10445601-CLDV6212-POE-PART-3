@@ -1,0 +1,69 @@
+﻿@model ABCRetailers.Models.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0"><i class="fas fa-sign-in-alt"></i> Login to ABC Retailers</h3>
+            </div>
+            <div class="card-body">
+                <!-- Add demo accounts info -->
+                <div class="alert alert-info">
+                    <h6><i class="fas fa-users"></i> Demo Accounts:</h6>
+                    <div class="row">
+                        <div class="col-6">
+                            <strong>Admin:</strong><br>
+                            <small>Username: <code>admin</code></small><br>
+                            <small>Password: <code>Admin123!</code></small>
+                        </div>
+                        <div class="col-6">
+                            <strong>Customer:</strong><br>
+                            <small>Username: <code>customer</code></small><br>
+                            <small>Password: <code>Customer123!</code></small>
+                        </div>
+                    </div>
+                </div>
+
+                <form asp-action="Login" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Username" class="form-label"></label>
+                        <input asp-for="Username" class="form-control" placeholder="Enter your username or email" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" class="form-control" type="password" placeholder="Enter your password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3 form-check">
+                        <input asp-for="RememberMe" class="form-check-input" />
+                        <label asp-for="RememberMe" class="form-check-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <p>Don't have an account? <a asp-action="Register">Register here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

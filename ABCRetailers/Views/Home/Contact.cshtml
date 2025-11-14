@@ -1,0 +1,206 @@
+﻿<!-- Views/Home/Contact.cshtml -->
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="display-4 text-primary mb-4">
+                <i class="fas fa-address-book"></i> Contact ABC Retailers
+            </h1>
+        </div>
+    </div>
+
+    <!-- Success Message Display -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row">
+        <!-- Contact Information -->
+        <div class="col-md-5 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h3><i class="fas fa-map-marker-alt"></i> Our Location</h3>
+                </div>
+                <div class="card-body">
+                    <address>
+                        <strong>ABC Retailers Headquarters</strong><br>
+                        123 Commerce Street<br>
+                        Sandton, Johannesburg 2196<br>
+                        South Africa
+                    </address>
+
+                    <div class="contact-details mt-4">
+                        <p>
+                            <i class="fas fa-phone text-primary"></i>
+                            <strong>Phone:</strong> <a href="tel:+27112345678">+27 11 234 5678</a>
+                        </p>
+                        <p>
+                            <i class="fas fa-envelope text-primary"></i>
+                            <strong>Email:</strong> <a href="mailto:info@abcretailers.com">info@abcretailers.com</a>
+                        </p>
+                        <p>
+                            <i class="fas fa-clock text-primary"></i>
+                            <strong>Customer Service:</strong> support@abcretailers.com
+                        </p>
+                    </div>
+
+                    <hr>
+
+                    <h4><i class="fas fa-business-time"></i> Operational Hours</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover mt-3">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monday - Thursday</td>
+                                    <td>8:00 AM - 6:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Friday</td>
+                                    <td>8:00 AM - 5:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Saturday</td>
+                                    <td>9:00 AM - 2:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Sunday</td>
+                                    <td>Closed</td>
+                                </tr>
+                                <tr>
+                                    <td>Public Holidays</td>
+                                    <td>Closed</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Form and Map -->
+        <div class="col-md-7">
+            <!-- Google Form -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h3><i class="fas fa-envelope"></i> Send us a Message</h3>
+                </div>
+                <div class="card-body">
+                    <!-- YOUR GOOGLE FORM EMBED CODE -->
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSem5myWetAIFreXOgoXVIw70BMoWjIBFdlkoUQwG5td3JHKew/viewform?embedded=true"
+                            width="100%" height="1145" frameborder="0" marginheight="0" marginwidth="0">
+                        Loading…
+                    </iframe>
+                    <div class="mt-2 text-center">
+                        <small class="text-muted">
+                            Can't see the form?
+                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSem5myWetAIFreXOgoXVIw70BMoWjIBFdlkoUQwG5td3JHKew/viewform" target="_blank">
+                                Open in new window
+                            </a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Maps Section -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h3><i class="fas fa-map-marked-alt"></i> Find Us</h3>
+                </div>
+                <div class="card-body">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3583.4770471853158!2d27.873880075411215!3d-26.08334197715115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e959ef5277b96a7%3A0xc4aa15508f8e5e8c!2sIIE%20MSA!5e0!3m2!1sen!2sza!4v1757772163603!5m2!1sen!2sza"
+                                style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <div class="mt-2 text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle"></i>
+                            Our headquarters at IIE MSA Campus, Johannesburg
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h3><i class="fas fa-info-circle"></i> Additional Information</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <i class="fas fa-shipping-fast fa-3x text-primary mb-3"></i>
+                            <h5>Shipping Inquiries</h5>
+                            <p class="text-muted">shipping@abcretailers.com</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <i class="fas fa-file-invoice-dollar fa-3x text-success mb-3"></i>
+                            <h5>Billing Support</h5>
+                            <p class="text-muted">billing@abcretailers.com</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <i class="fas fa-handshake fa-3x text-warning mb-3"></i>
+                            <h5>Business Partnerships</h5>
+                            <p class="text-muted">partnerships@abcretailers.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .contact-details p {
+        margin-bottom: 0.8rem;
+        font-size: 1.1rem;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+    .card-header {
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    address {
+        line-height: 1.8;
+        font-style: normal;
+    }
+
+    /* Responsive adjustments for the form */
+    @@media (max-width: 768px) {
+        iframe {
+            height: 1000px !important;
+        }
+    }
+</style>
